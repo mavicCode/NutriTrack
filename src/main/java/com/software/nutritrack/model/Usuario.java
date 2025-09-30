@@ -27,12 +27,12 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column()
     private float peso;
 
-    @Column(nullable = true)
+    @Column()
     private float altura;
 
-    @Column(nullable = true)
+    @Column()
     private LocalDate fecha_registro;
 }
