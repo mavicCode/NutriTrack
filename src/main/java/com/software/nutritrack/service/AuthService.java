@@ -43,6 +43,8 @@ public class AuthService {
                 .email(savedUser.getEmail())
                 .profileId(profileId)
                 .name(dto.name())
+                .altura(dto.altura())
+                .peso(dto.peso())
                 .build();
 
     }

@@ -18,5 +18,12 @@ public record UsuarioRegistroRequestDTO(
 
         // Datos comunes del perfil
         @NotBlank(message = "El nombre es obligatorio")
-        String name
+        String name,
+
+        @NotBlank(message = "El peso es obligatorio")
+        Float peso,
+
+        @NotBlank(message = "La altura es obligatoria")
+        Float altura
+
 ) {}
