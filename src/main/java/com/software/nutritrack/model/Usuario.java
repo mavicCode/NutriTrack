@@ -3,8 +3,6 @@ package com.software.nutritrack.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "users")
 @Getter
