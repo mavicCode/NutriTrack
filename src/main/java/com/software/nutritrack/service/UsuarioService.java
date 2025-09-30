@@ -1,5 +1,4 @@
 package com.software.nutritrack.service;
-
 import com.software.nutritrack.dto.response.UsuarioPerfilResponseDTO;
 import com.software.nutritrack.exception.BusinessRuleException;
 import com.software.nutritrack.exception.ResourceNotFoundException;
