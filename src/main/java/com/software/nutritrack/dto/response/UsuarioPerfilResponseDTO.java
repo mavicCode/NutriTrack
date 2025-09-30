@@ -5,5 +5,7 @@ import lombok.Builder;
 @Builder
 public record UsuarioPerfilResponseDTO(
         Long id,
-        String email
+        String email,
+        Float peso,
+        Float altura
 ) {}
