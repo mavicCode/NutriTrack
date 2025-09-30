@@ -22,7 +22,9 @@ public class UsuarioService {
 
         return new UsuarioPerfilResponseDTO(
                 user.getId_usuario(),
-                user.getEmail()
+                user.getEmail(),
+                user.getPeso(),
+                user.getAltura()
         );
     }
 

@@ -2,6 +2,7 @@ package com.software.nutritrack.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
@@ -19,10 +20,10 @@ public record UsuarioRegistroRequestDTO(
         @NotBlank(message = "El nombre es obligatorio")
         String name,
 
-        @NotBlank(message = "El peso es obligatorio")
+        @NotNull(message = "El peso es obligatorio")
         Float peso,
 
-        @NotBlank(message = "La altura es obligatoria")
+        @NotNull(message = "La altura es obligatoria")
         Float altura
 
 ) {}
