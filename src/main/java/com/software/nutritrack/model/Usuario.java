@@ -28,10 +28,10 @@ public class Usuario {
     private String password;
 
     @Column(nullable = false)
-    private float peso;
+    private Float peso;
 
     @Column(nullable = false)
-    private float altura;
+    private Float altura;
 
     @Column(nullable = false, updatable = false)
     private LocalDate fecha_registro;
