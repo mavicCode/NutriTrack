@@ -11,6 +11,7 @@ public record UsuarioRegistroResponseDTO(
 
         // Datos del perfil creado
         Long profileId,
-        String profileType, // "AUTHOR" o "READER"
-        String name
+        String name,
+        Float peso,
+        Float altura
 ) {}

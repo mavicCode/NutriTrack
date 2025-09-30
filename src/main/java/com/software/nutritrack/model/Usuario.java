@@ -3,6 +3,8 @@ package com.software.nutritrack.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -24,13 +26,18 @@ public class Usuario {
 
     @Column(nullable = false)
     private String password;
-  
+
     @Column(nullable = false)
     private float peso;
 
     @Column(nullable = false)
     private float altura;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDate fecha_registro;
+
+    @PrePersist
+    public void prePersist() {
+        fecha_registro = LocalDate.now();
+    }
 }
