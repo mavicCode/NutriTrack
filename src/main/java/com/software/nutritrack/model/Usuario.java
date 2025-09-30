@@ -24,4 +24,13 @@ public class Usuario {
 
     @Column(nullable = false)
     private String password;
+  
+    @Column(nullable = false)
+    private float peso;
+
+    @Column(nullable = false)
+    private float altura;
+
+    @Column(nullable = false)
+    private LocalDate fecha_registro;
 }
