@@ -2,7 +2,6 @@ package com.software.nutritrack.service;
 import com.software.nutritrack.dto.response.UsuarioPerfilResponseDTO;
 import com.software.nutritrack.exception.BusinessRuleException;
 import com.software.nutritrack.exception.ResourceNotFoundException;
-import com.software.nutritrack.model.Usuario;
 import com.software.nutritrack.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
