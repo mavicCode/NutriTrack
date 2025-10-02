@@ -48,7 +48,6 @@ public class AuthService {
                 .nombre(dto.nombre())
                 .altura(dto.altura())
                 .peso(dto.peso())
-
                 .build();
 
     }

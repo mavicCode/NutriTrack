@@ -38,8 +38,11 @@ public class Usuario {
     @Column(nullable = false, updatable = false)
     private LocalDate fecha_registro;
 
+    private LocalDate fecha_actualizacion;
+
     @PrePersist
     public void prePersist() {
         fecha_registro = LocalDate.now();
+        fecha_actualizacion = LocalDate.now();
     }
 }
