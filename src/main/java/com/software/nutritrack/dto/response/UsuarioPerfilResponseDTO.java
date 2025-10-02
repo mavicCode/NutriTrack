@@ -11,5 +11,6 @@ public record UsuarioPerfilResponseDTO(
         String nombre,
         Float peso,
         Float altura,
-        LocalDate fecha_registro
+        LocalDate fecha_registro,
+        LocalDate fecha_actualizacion
 ) {}
