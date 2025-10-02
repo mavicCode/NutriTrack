@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "users")
+@Table(name = "excercises")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,35 +14,22 @@ import java.time.LocalDate;
 @Builder
 @Data
 
-public class Usuario {
+public class Ejercicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long id_ejercicio;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String descripcion;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false)
-    private Float peso;
-
-    @Column(nullable = false)
-    private Float altura;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDate fecha_registro;
+    private String categoria;
 
     private LocalDate fecha_actualizacion;
 
     @PrePersist
     public void prePersist() {
-        fecha_registro = LocalDate.now();
         fecha_actualizacion = LocalDate.now();
     }
 }
