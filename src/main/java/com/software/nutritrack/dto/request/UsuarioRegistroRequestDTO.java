@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+import java.time.LocalDate;
+
 @Builder
 public record UsuarioRegistroRequestDTO(
 
@@ -18,5 +20,14 @@ public record UsuarioRegistroRequestDTO(
 
         // Datos comunes del perfil
         @NotBlank(message = "El nombre es obligatorio")
-        String name
+        String nombre,
+
+        @NotNull(message = "El peso es obligatorio")
+        Float peso,
+
+        @NotNull(message = "La altura es obligatoria")
+        Float altura,
+
+        LocalDate fecha_registro
+
 ) {}

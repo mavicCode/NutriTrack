@@ -31,6 +31,9 @@ public class AuthService {
         var user = Usuario.builder()
                 .email(dto.email())
                 .password(passwordEncoder.encode(dto.password()))
+                .nombre(dto.nombre())
+                .altura(dto.altura())
+                .peso(dto.peso())
                 .build();
 
         var savedUser = userRepository.save(user);
@@ -42,7 +45,10 @@ public class AuthService {
                 .userId(savedUser.getId_usuario())
                 .email(savedUser.getEmail())
                 .profileId(profileId)
-                .name(dto.name())
+                .nombre(dto.nombre())
+                .altura(dto.altura())
+                .peso(dto.peso())
+
                 .build();
 
     }
