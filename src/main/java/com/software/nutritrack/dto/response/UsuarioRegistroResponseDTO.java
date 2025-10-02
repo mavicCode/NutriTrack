@@ -2,6 +2,8 @@ package com.software.nutritrack.dto.response;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
+
 @Builder
 public record UsuarioRegistroResponseDTO(
 
@@ -11,7 +13,8 @@ public record UsuarioRegistroResponseDTO(
 
         // Datos del perfil creado
         Long profileId,
-        String name,
+        String nombre,
         Float peso,
-        Float altura
+        Float altura,
+        LocalDate fecha_registro
 ) {}
