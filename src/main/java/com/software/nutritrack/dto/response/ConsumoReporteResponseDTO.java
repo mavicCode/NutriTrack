@@ -1,10 +1,10 @@
 package com.software.nutritrack.dto.response;
 
-import lombok.Builder;
+import java.time.LocalDate;
 import java.util.Map;
 
-@Builder
 public record ConsumoReporteResponseDTO(
-        Double totalCalorias,
-        Map<String, Double> categorias
+        LocalDate fecha,
+        Map<String, Double> consumoPorCategoria,
+        Double totalCalorias
 ) {}
