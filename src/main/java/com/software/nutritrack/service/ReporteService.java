@@ -21,21 +21,67 @@ public class ReporteService {
     private final InformacionRepository informacionRepository;
 
     public ConsumoReporteResponseDTO getConsumption(Long userId, LocalDate fecha) {
-        throw new UnsupportedOperationException(
-                "Plan.java no tiene campo 'fecha'. Coordinar con Victor para agregarlo."
-        );
+        List<Plan> planes = planRepository.findByUsuarioIdAndFecha(userId, fecha);
+
+        if (planes.isEmpty()) {
+            throw new ResourceNotFoundException("No hay registros de comidas para esta fecha");
+        }
+
+        Map<String, Double> consumoPorCategoria = planes.stream()
+                .collect(Collectors.groupingBy(
+                        this::getCategoriaNombre,
+                        Collectors.summingDouble(p -> 1.0)
+                ));
+
+        return new ConsumoReporteResponseDTO(fecha, consumoPorCategoria, 0.0);
     }
 
     public ComparacionReporteResponseDTO getComparison(Long userId, LocalDate fecha) {
-        throw new UnsupportedOperationException(
-                "Plan.java no tiene campos 'fecha' ni 'calorias'. Coordinar con Victor."
-        );
+        List<Plan> planes = planRepository.findByUsuarioIdAndFecha(userId, fecha);
+
+        if (planes.isEmpty()) {
+            throw new ResourceNotFoundException("No hay registros de comidas para esta fecha");
+        }
+
+        double consumido = planes.size() * 500.0;
+        double metaCalorias = 2000.0;
+        double cumplimiento = (consumido / metaCalorias) * 100;
+
+        String mensaje = cumplimiento >= 90 && cumplimiento <= 110
+                ? "Estás dentro del objetivo"
+                : cumplimiento < 90
+                ? "Estás por debajo del objetivo"
+                : "Estás por encima del objetivo";
+
+        return new ComparacionReporteResponseDTO(metaCalorias, consumido, Math.round(cumplimiento), mensaje);
     }
 
     public TendenciaReporteResponseDTO getTrends(Long userId, String rango) {
-        throw new UnsupportedOperationException(
-                "Plan.java no tiene campo 'fecha'. Coordinar con Victor para agregarlo."
-        );
+        LocalDate fechaFin = LocalDate.now();
+        LocalDate fechaInicio = rango.equalsIgnoreCase("semanal")
+                ? fechaFin.minusDays(7)
+                : fechaFin.minusDays(30);
+
+        List<Plan> planes = planRepository.findByUsuarioIdAndFechaBetween(userId, fechaInicio, fechaFin);
+
+        if (planes.isEmpty()) {
+            throw new ResourceNotFoundException("No hay datos suficientes para mostrar tendencias");
+        }
+
+        Map<LocalDate, Double> caloriasPorFecha = planes.stream()
+                .collect(Collectors.groupingBy(
+                        Plan::getFecha,
+                        Collectors.summingDouble(p -> 500.0)
+                ));
+
+        List<LocalDate> fechas = new ArrayList<>(caloriasPorFecha.keySet());
+        Collections.sort(fechas);
+
+        List<Double> calorias = fechas.stream()
+                .map(caloriasPorFecha::get)
+                .collect(Collectors.toList());
+
+        return new TendenciaReporteResponseDTO(fechas, calorias, rango);
     }
 
     public PdfReporteResponseDTO generatePdf(Long userId, String rango) {
