@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,9 @@ public class Plan {
 
     @Column(name = "tipo_comida", nullable = false)
     private Integer tipoComida; // 1: Desayuno, 2: Almuerzo, 3: Cena, 4: Snack
+
+    @Column(nullable = false)
+    private LocalDate fecha;
 
     @Column(length = 400)
     private String descripcion;
