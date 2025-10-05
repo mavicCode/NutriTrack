@@ -1,13 +1,11 @@
 package com.software.nutritrack.controller;
 
+import com.software.nutritrack.dto.request.*;
 import com.software.nutritrack.dto.response.*;
 import com.software.nutritrack.service.ReporteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/reports")
@@ -16,39 +14,43 @@ public class ReporteController {
 
     private final ReporteService reporteService;
 
-    @GetMapping("/consumption")
+    @PostMapping("/consumption")
     public ResponseEntity<ConsumoReporteResponseDTO> getConsumption(
-            @RequestParam Long userId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+            @RequestBody ConsumoReporteRequestDTO request) {
 
-        ConsumoReporteResponseDTO reporte = reporteService.getConsumption(userId, fecha);
+        ConsumoReporteResponseDTO reporte = reporteService.getConsumption(
+                request.userId(),
+                request.fecha()
+        );
         return ResponseEntity.ok(reporte);
     }
 
-    @GetMapping("/comparison")
+    @PostMapping("/comparison")
     public ResponseEntity<ComparacionReporteResponseDTO> getComparison(
-            @RequestParam Long userId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+            @RequestBody ComparacionReporteRequestDTO request) {
 
-        ComparacionReporteResponseDTO reporte = reporteService.getComparison(userId, fecha);
+        ComparacionReporteResponseDTO reporte = reporteService.getComparison(
+                request.userId(),
+                request.fecha()
+        );
         return ResponseEntity.ok(reporte);
     }
 
-    @GetMapping("/trends")
+    @PostMapping("/trends")
     public ResponseEntity<TendenciaReporteResponseDTO> getTrends(
-            @RequestParam Long userId,
-            @RequestParam String rango) {
+            @RequestBody TendenciaReporteRequestDTO request) {
 
-        TendenciaReporteResponseDTO reporte = reporteService.getTrends(userId, rango);
+        TendenciaReporteResponseDTO reporte = reporteService.getTrends(
+                request.userId(),
+                request.rango()
+        );
         return ResponseEntity.ok(reporte);
     }
 
-    @GetMapping("/pdf")
-    public ResponseEntity<PdfReporteResponseDTO> downloadPdf(
-            @RequestParam Long userId,
-            @RequestParam String rango) {
+    @PostMapping("/pdf")
+    public ResponseEntity<byte[]> downloadPdf(
+            @RequestBody PdfReporteRequestDTO request) {
 
-        PdfReporteResponseDTO reporte = reporteService.generatePdf(userId, rango);
-        return ResponseEntity.ok(reporte);
+        return reporteService.generatePdf(request.userId(), request.rango());
     }
 }
