@@ -4,7 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Builder;
 
+@Builder
 public record AlimentoRequestDTO(
         @NotBlank(message = "El nombre es obligatorio")
         String name,
