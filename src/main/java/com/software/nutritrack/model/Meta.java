@@ -1,6 +1,5 @@
 package com.software.nutritrack.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,19 +22,14 @@ public class Meta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TipoMeta tipo;//Nutricion, hidratacion, ejercicio, personalizada
 
-    @Column(length = 250, nullable = false)
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EstadoMeta estado;//Activo, No_activo
 
-    @Column(nullable = false)
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
