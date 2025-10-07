@@ -1,5 +1,6 @@
 package com.software.nutritrack.controller;
 
+import com.software.nutritrack.dto.request.MetaRequestDTO;
 import com.software.nutritrack.dto.response.MetaResponseDTO;
 import com.software.nutritrack.dto.response.ProgresoResponseDTO;
 import com.software.nutritrack.model.Meta;
@@ -17,8 +18,9 @@ public class MetaController {
 
     // US05 / US07 – Crear meta
     @PostMapping
-    public ResponseEntity<MetaResponseDTO> crearMeta(@RequestBody Meta meta) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(metaService.crearMeta(meta));
+    //public ResponseEntity<MetaResponseDTO> crearMeta(@RequestBody Meta meta) {
+    public ResponseEntity<MetaResponseDTO> crearMeta(@RequestBody MetaRequestDTO metaRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(metaService.crearMeta(metaRequest));
     }
 
     // US08 – Ajustar meta

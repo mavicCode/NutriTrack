@@ -25,11 +25,14 @@ public class Meta {
     @Enumerated(EnumType.STRING)
     private TipoMeta tipo;//Nutricion, hidratacion, ejercicio, personalizada
 
+    @Column(length = 200, nullable = false)
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoMeta estado;//Activo, No_activo
 
+    @Column(nullable = false)
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
