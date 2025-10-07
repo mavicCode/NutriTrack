@@ -1,4 +1,4 @@
-package com.software.nutritrack.model;
+package com.software.nutritrack.model.Enums;
 
 public enum EstadoMeta {
     ACTIVO,

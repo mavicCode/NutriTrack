@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "excercises")
@@ -18,7 +19,10 @@ public class Ejercicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_ejercicio;
+    private Long idEjercicio;
+
+    @OneToMany(mappedBy = "ejercicio")
+    private List<UsuarioEjercicio> usuarios;
 
     @Column(nullable = false, unique = true)
     private String descripcion;

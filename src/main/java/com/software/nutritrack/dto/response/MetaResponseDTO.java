@@ -1,7 +1,7 @@
 package com.software.nutritrack.dto.response;
 
-import com.software.nutritrack.model.EstadoMeta;
-import com.software.nutritrack.model.TipoMeta;
+import com.software.nutritrack.model.Enums.EstadoMeta;
+import com.software.nutritrack.model.Enums.TipoMeta;
 import lombok.Data;
 
 import java.time.LocalDate;

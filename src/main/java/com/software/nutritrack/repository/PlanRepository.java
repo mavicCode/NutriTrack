@@ -13,11 +13,11 @@ import java.util.List;
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     // Buscar planes por usuario
-    @Query("SELECT p FROM Plan p WHERE p.usuario.id_usuario = :usuarioId")
-    List<Plan> findByUsuarioId(@Param("usuarioId") Long usuarioId);
+    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId")
+    List<Plan> findByUsuario_IdUsuario(@Param("usuarioId") Long usuarioId);
 
     // Buscar planes por usuario y tipo de comida
-    @Query("SELECT p FROM Plan p WHERE p.usuario.id_usuario = :usuarioId AND p.tipoComida = :tipoComida")
+    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId AND p.tipoComida = :tipoComida")
     List<Plan> findByUsuarioIdAndTipoComida(@Param("usuarioId") Long usuarioId,
                                             @Param("tipoComida") Integer tipoComida);
 
@@ -26,20 +26,20 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     List<Plan> findByClasificacion(@Param("clasificacion") Integer clasificacion);
 
     // Verificar si existe un plan para un usuario
-    @Query("SELECT COUNT(p) > 0 FROM Plan p WHERE p.usuario.id_usuario = :usuarioId")
+    @Query("SELECT COUNT(p) > 0 FROM Plan p WHERE p.usuario.idUsuario = :usuarioId")
     boolean existsByUsuarioId(@Param("usuarioId") Long usuarioId);
 
     // Buscar planes con sus comidas (JOIN FETCH para evitar N+1)
-    @Query("SELECT DISTINCT p FROM Plan p LEFT JOIN FETCH p.comidas WHERE p.usuario.id_usuario = :usuarioId")
+    @Query("SELECT DISTINCT p FROM Plan p LEFT JOIN FETCH p.comidas WHERE p.usuario.idUsuario = :usuarioId")
     List<Plan> findByUsuarioIdWithComidas(@Param("usuarioId") Long usuarioId);
 
 
     // Permiten consultar planes de alimentación por fecha y rangos de fechas
-    @Query("SELECT p FROM Plan p WHERE p.usuario.id_usuario = :usuarioId AND p.fecha = :fecha")
+    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId AND p.fecha = :fecha")
     List<Plan> findByUsuarioIdAndFecha(@Param("usuarioId") Long usuarioId,
                                        @Param("fecha") LocalDate fecha);
 
-    @Query("SELECT p FROM Plan p WHERE p.usuario.id_usuario = :usuarioId " +
+    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId " +
             "AND p.fecha BETWEEN :fechaInicio AND :fechaFin " +
             "ORDER BY p.fecha")
     List<Plan> findByUsuarioIdAndFechaBetween(@Param("usuarioId") Long usuarioId,

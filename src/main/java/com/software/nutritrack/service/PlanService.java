@@ -182,7 +182,7 @@ public class PlanService {
 
         return PlanResponseDTO.builder()
                 .id(plan.getId())
-                .usuarioId(plan.getUsuario().getId_usuario())
+                .usuarioId(plan.getUsuario().getIdUsuario())
                 .nombreUsuario(plan.getUsuario().getNombre())
                 .tipoComida(plan.getTipoComida())
                 .tipoComidaNombre(getTipoComidaNombre(plan.getTipoComida()))

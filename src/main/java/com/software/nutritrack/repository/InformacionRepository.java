@@ -12,5 +12,5 @@ import java.util.List;
 public interface InformacionRepository extends JpaRepository<Informacion, Long> {
 
     @Query("SELECT i FROM Informacion i WHERE i.idUsuario = :idUsuario ORDER BY i.fechaGeneracion DESC")
-    List<Informacion> findByUsuarioId(@Param("idUsuario") Long idUsuario);
+    List<Informacion> findByIdUsuario(@Param("idUsuario") Long idUsuario);
 }

@@ -1,5 +1,7 @@
 package com.software.nutritrack.model;
 
+import com.software.nutritrack.model.Enums.EstadoMeta;
+import com.software.nutritrack.model.Enums.TipoMeta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +19,10 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long idUsuario;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<UsuarioEjercicio> ejercicios;
 
     @Column(nullable = false, unique = true)
     private String email;

@@ -84,26 +84,37 @@ public class AlimentoService {
         var alimento = alimentoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Alimento no encontrado"));
 
-        //  Validar que no exista otro alimento con el mismo nombre (excepto el actual)
-        alimentoRepository.findByName(dto.name())
-                .ifPresent(existing -> {
-                    if (!existing.getId().equals(id)) {
-                        throw new BusinessRuleException("Ya existe otro alimento con ese nombre");
-                    }
-                });
-
-        //  Validar calorías y peso
-        if (dto.calorias() < 0) {
-            throw new BusinessRuleException("Las calorías no pueden ser negativas");
-        }
-        if (dto.peso() <= 0) {
-            throw new BusinessRuleException("El peso debe ser mayor a cero");
+        // Validar nombre (solo si se envía)
+        if (dto.name() != null && !dto.name().isBlank()) {
+            alimentoRepository.findByName(dto.name())
+                    .ifPresent(existing -> {
+                        if (!existing.getId().equals(id)) {
+                            throw new BusinessRuleException("Ya existe otro alimento con ese nombre");
+                        }
+                    });
+            alimento.setName(dto.name());
         }
 
-        alimento.setName(dto.name());
-        alimento.setCalorias(dto.calorias());
-        alimento.setPeso(dto.peso());
-        alimento.setCategoria(dto.categoria());
+        // Validar calorías (solo si se envían)
+        if (dto.calorias() != null) {
+            if (dto.calorias() < 0) {
+                throw new BusinessRuleException("Las calorías no pueden ser negativas");
+            }
+            alimento.setCalorias(dto.calorias());
+        }
+
+        // Validar peso (solo si se envía)
+        if (dto.peso() != null) {
+            if (dto.peso() <= 0) {
+                throw new BusinessRuleException("El peso debe ser mayor a cero");
+            }
+            alimento.setPeso(dto.peso());
+        }
+
+        // Validar categoría (solo si se envía)
+        if (dto.categoria() != null && !dto.categoria().isBlank()) {
+            alimento.setCategoria(dto.categoria());
+        }
 
         return toDto(alimentoRepository.save(alimento));
     }

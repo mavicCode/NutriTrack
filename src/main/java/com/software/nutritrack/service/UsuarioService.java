@@ -24,7 +24,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         return new UsuarioPerfilResponseDTO(
-                user.getId_usuario(),
+                user.getIdUsuario(),
                 user.getEmail(),
                 user.getNombre(),
                 user.getPeso(),
@@ -62,7 +62,7 @@ public class UsuarioService {
 
         userRepository.save(usuario);
 
-        return new UsuarioPerfilResponseDTO(usuario.getId_usuario(), usuario.getEmail(), usuario.getNombre(), usuario.getPeso(),
+        return new UsuarioPerfilResponseDTO(usuario.getIdUsuario(), usuario.getEmail(), usuario.getNombre(), usuario.getPeso(),
                 usuario.getAltura(), usuario.getFecha_registro(), usuario.getFecha_actualizacion());
     }
 

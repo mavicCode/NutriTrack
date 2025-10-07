@@ -42,7 +42,7 @@ public class AuthService {
 
         // Respuesta
         return UsuarioRegistroResponseDTO.builder()
-                .userId(savedUser.getId_usuario())
+                .userId(savedUser.getIdUsuario())
                 .email(savedUser.getEmail())
                 .profileId(profileId)
                 .nombre(dto.nombre())
@@ -66,7 +66,7 @@ public class AuthService {
         String fakeToken = "demo-token";
 
         return LoginResponseDTO.builder()
-                .userId(user.getId_usuario())
+                .userId(user.getIdUsuario())
                 .email(user.getEmail())
                 .token(fakeToken)
                 .build();
