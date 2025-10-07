@@ -1,5 +1,8 @@
 package com.software.nutritrack.service;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import com.software.nutritrack.dto.response.*;
 import com.software.nutritrack.exception.ResourceNotFoundException;
 import com.software.nutritrack.model.Informacion;
@@ -7,8 +10,13 @@ import com.software.nutritrack.model.Plan;
 import com.software.nutritrack.repository.InformacionRepository;
 import com.software.nutritrack.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -84,19 +92,49 @@ public class ReporteService {
         return new TendenciaReporteResponseDTO(fechas, calorias, rango);
     }
 
-    public PdfReporteResponseDTO generatePdf(Long userId, String rango) {
-        Informacion info = Informacion.builder()
-                .idUsuario(userId)
-                .formato("PDF")
-                .rutaArchivo("/reports/user_" + userId + "_" + rango + "_" + System.currentTimeMillis() + ".pdf")
-                .build();
+    public ResponseEntity<byte[]> generatePdf(Long userId, String rango) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, baos);
 
-        informacionRepository.save(info);
+            document.open();
 
-        return PdfReporteResponseDTO.builder()
-                .url("https://nutritrack.com" + info.getRutaArchivo())
-                .mensaje("PDF generado correctamente")
-                .build();
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Paragraph title = new Paragraph("Reporte Nutricional - NutriTrack", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            document.add(new Paragraph("Usuario ID: " + userId));
+            document.add(new Paragraph("Rango: " + rango));
+            document.add(new Paragraph("Fecha de generación: " + LocalDate.now()));
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Resumen de Alimentación"));
+            document.add(new Paragraph("Este reporte contiene información sobre tu progreso nutricional."));
+
+            document.close();
+
+            Informacion info = Informacion.builder()
+                    .idUsuario(userId)
+                    .formato("PDF")
+                    .rutaArchivo("/reports/user_" + userId + "_" + rango + "_" + System.currentTimeMillis() + ".pdf")
+                    .build();
+            informacionRepository.save(info);
+
+            byte[] pdfBytes = baos.toByteArray();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment",
+                    "reporte_nutritrack_" + userId + "_" + rango + ".pdf");
+            headers.setContentLength(pdfBytes.length);
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el PDF: " + e.getMessage());
+        }
     }
 
     private String getCategoriaNombre(Plan plan) {
