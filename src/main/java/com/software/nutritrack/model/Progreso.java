@@ -20,9 +20,16 @@ public class Progreso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDate fecha;
+
+    @Column(nullable = false)
     private boolean cumplido;//Si o No
+
+    @Column(nullable = false)
     private double porcentaje;
+
+    @Column(nullable = false)
     private String recomendaciones;
 
     @ManyToOne(fetch = FetchType.LAZY)
