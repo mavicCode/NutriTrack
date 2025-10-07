@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 //import java.net.URI;
 
 @RestControllerAdvice
@@ -36,4 +37,14 @@ public class GlobalExceptionHandler {
         //problem.setType(URI.create("https://api.upc.com/errors/internal-error"));
         return problem;
     }
+    @ExceptionHandler(MetaNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(MetaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MetaNotActiveException.class)
+    public ResponseEntity<String> handleNotActive(MetaNotActiveException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
 }
