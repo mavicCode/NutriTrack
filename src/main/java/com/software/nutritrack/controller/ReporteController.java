@@ -42,7 +42,7 @@ public class ReporteController {
         TendenciaReporteResponseDTO reporte = reporteService.getTrends(userId, rango);
         return ResponseEntity.ok(reporte);
     }
-    
+
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> downloadPdf(
             @RequestParam Long userId,
