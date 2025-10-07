@@ -203,7 +203,7 @@ public class RegistroComidaService {
     private RegistroComidaResponseDTO toDto(RegistroComida registro) {
         return RegistroComidaResponseDTO.builder()
                 .id(registro.getId())
-                .usuarioId(registro.getUsuario().getId_usuario())
+                .usuarioId(registro.getUsuario().getIdUsuario())
                 .nombreUsuario(registro.getUsuario().getNombre())
                 .alimentoId(registro.getAlimento().getId())
                 .alimentoNombre(registro.getAlimento().getName())
