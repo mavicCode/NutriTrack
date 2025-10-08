@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record PlanRequestDTO(
@@ -16,6 +17,8 @@ public record PlanRequestDTO(
 
         @Size(max = 400, message = "La descripción no puede exceder 400 caracteres")
         String descripcion,
+
+        LocalDate fecha,
 
         Integer clasificacion,
 
