@@ -31,7 +31,7 @@ public class Plan {
     @Column(name = "tipo_comida", nullable = false)
     private Integer tipoComida; // 1: Desayuno, 2: Almuerzo, 3: Cena, 4: Snack
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDate fecha;
 
     @Column(length = 400)
@@ -43,4 +43,5 @@ public class Plan {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<ComidaAlimento> comidas = new ArrayList<>();
+
 }

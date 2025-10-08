@@ -44,6 +44,7 @@ public class PlanService {
                 .tipoComida(dto.tipoComida())
                 .descripcion(dto.descripcion())
                 .clasificacion(dto.clasificacion())
+                .fecha(dto.fecha())
                 .comidas(new ArrayList<>())
                 .build();
 
@@ -128,6 +129,7 @@ public class PlanService {
 
         // Actualizar datos básicos
         plan.setUsuario(usuario);
+        plan.setFecha(dto.fecha());
         plan.setTipoComida(dto.tipoComida());
         plan.setDescripcion(dto.descripcion());
         plan.setClasificacion(dto.clasificacion());
@@ -187,6 +189,7 @@ public class PlanService {
                 .tipoComida(plan.getTipoComida())
                 .tipoComidaNombre(getTipoComidaNombre(plan.getTipoComida()))
                 .descripcion(plan.getDescripcion())
+                .fecha(plan.getFecha())
                 .clasificacion(plan.getClasificacion())
                 .alimentos(alimentosDto)
                 .caloriasTotales(caloriasTotales)
