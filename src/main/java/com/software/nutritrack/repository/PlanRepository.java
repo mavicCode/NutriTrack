@@ -13,12 +13,12 @@ import java.util.List;
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     // Buscar planes por usuario
-    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId")
-    List<Plan> findByUsuario_IdUsuario(@Param("usuarioId") Long usuarioId);
+    @Query("SELECT p FROM Plan p WHERE p.usuario.id = :usuarioId")
+    List<Plan> findByUsuario_IdUsuario(@Param("usuarioId") String usuarioId);
 
     // Buscar planes por usuario y tipo de comida
-    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId AND p.tipoComida = :tipoComida")
-    List<Plan> findByUsuarioIdAndTipoComida(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT p FROM Plan p WHERE p.usuario.id = :usuarioId AND p.tipoComida = :tipoComida")
+    List<Plan> findByUsuarioIdAndTipoComida(@Param("usuarioId") String usuarioId,
                                             @Param("tipoComida") Integer tipoComida);
 
     // Buscar planes por clasificación
@@ -26,23 +26,23 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     List<Plan> findByClasificacion(@Param("clasificacion") Integer clasificacion);
 
     // Verificar si existe un plan para un usuario
-    @Query("SELECT COUNT(p) > 0 FROM Plan p WHERE p.usuario.idUsuario = :usuarioId")
-    boolean existsByUsuarioId(@Param("usuarioId") Long usuarioId);
+    @Query("SELECT COUNT(p) > 0 FROM Plan p WHERE p.usuario.id = :usuarioId")
+    boolean existsByUsuarioId(@Param("usuarioId") String usuarioId);
 
     // Buscar planes con sus comidas (JOIN FETCH para evitar N+1)
-    @Query("SELECT DISTINCT p FROM Plan p LEFT JOIN FETCH p.comidas WHERE p.usuario.idUsuario = :usuarioId")
-    List<Plan> findByUsuarioIdWithComidas(@Param("usuarioId") Long usuarioId);
+    @Query("SELECT DISTINCT p FROM Plan p LEFT JOIN FETCH p.comidas WHERE p.usuario.id = :usuarioId")
+    List<Plan> findByUsuarioIdWithComidas(@Param("usuarioId") String usuarioId);
 
 
     // Permiten consultar planes de alimentación por fecha y rangos de fechas
-    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId AND p.fecha = :fecha")
-    List<Plan> findByUsuarioIdAndFecha(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT p FROM Plan p WHERE p.usuario.id = :usuarioId AND p.fecha = :fecha")
+    List<Plan> findByUsuarioIdAndFecha(@Param("usuarioId") String usuarioId,
                                        @Param("fecha") LocalDate fecha);
 
-    @Query("SELECT p FROM Plan p WHERE p.usuario.idUsuario = :usuarioId " +
+    @Query("SELECT p FROM Plan p WHERE p.usuario.id = :usuarioId " +
             "AND p.fecha BETWEEN :fechaInicio AND :fechaFin " +
             "ORDER BY p.fecha")
-    List<Plan> findByUsuarioIdAndFechaBetween(@Param("usuarioId") Long usuarioId,
+    List<Plan> findByUsuarioIdAndFechaBetween(@Param("usuarioId") String usuarioId,
                                               @Param("fechaInicio") LocalDate fechaInicio,
                                               @Param("fechaFin") LocalDate fechaFin);
 }

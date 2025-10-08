@@ -6,11 +6,8 @@ import java.time.LocalDate;
 
 @Builder
 public record UsuarioPerfilResponseDTO(
-        Long id,
+        String id,
         String email,
-        String nombre,
-        Float peso,
-        Float altura,
         LocalDate fecha_registro,
         LocalDate fecha_actualizacion
 ) {}

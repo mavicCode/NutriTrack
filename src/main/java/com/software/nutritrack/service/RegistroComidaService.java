@@ -62,7 +62,7 @@ public class RegistroComidaService {
 
     // US 09: Obtener registros del día
     @Transactional(readOnly = true)
-    public List<RegistroComidaResponseDTO> findByUsuarioIdAndFecha(Long usuarioId, LocalDate fecha) {
+    public List<RegistroComidaResponseDTO> findByUsuarioIdAndFecha(String usuarioId, LocalDate fecha) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -88,7 +88,7 @@ public class RegistroComidaService {
 
     @Transactional(readOnly = true)
     public List<RegistroComidaResponseDTO> findByUsuarioIdAndFechaAndTipoComida(
-            Long usuarioId, LocalDate fecha, Integer tipoComida) {
+            String usuarioId, LocalDate fecha, Integer tipoComida) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -141,7 +141,7 @@ public class RegistroComidaService {
 
     // US 12: Ver resumen diario
     @Transactional(readOnly = true)
-    public ResumenDiarioDTO getResumenDiario(Long usuarioId, LocalDate fecha) {
+    public ResumenDiarioDTO getResumenDiario(String usuarioId, LocalDate fecha) {
         var usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
@@ -151,7 +151,7 @@ public class RegistroComidaService {
         if (!tieneRegistros) {
             return ResumenDiarioDTO.builder()
                     .usuarioId(usuarioId)
-                    .nombreUsuario(usuario.getNombre())
+                    .nombreUsuario("nombre")
                     .fecha(fecha)
                     .caloriasTotales(0)
                     .caloriasPorTipoComida(new HashMap<>())
@@ -189,7 +189,7 @@ public class RegistroComidaService {
 
         return ResumenDiarioDTO.builder()
                 .usuarioId(usuarioId)
-                .nombreUsuario(usuario.getNombre())
+                .nombreUsuario("nombre")
                 .fecha(fecha)
                 .caloriasTotales(caloriasTotales)
                 .caloriasPorTipoComida(caloriasPorTipoComida)
@@ -203,8 +203,8 @@ public class RegistroComidaService {
     private RegistroComidaResponseDTO toDto(RegistroComida registro) {
         return RegistroComidaResponseDTO.builder()
                 .id(registro.getId())
-                .usuarioId(registro.getUsuario().getIdUsuario())
-                .nombreUsuario(registro.getUsuario().getNombre())
+                .usuarioId(registro.getUsuario().getId())
+                .nombreUsuario("nombre")
                 .alimentoId(registro.getAlimento().getId())
                 .alimentoNombre(registro.getAlimento().getName())
                 .categoria(registro.getAlimento().getCategoria())

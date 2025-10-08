@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public record RegistroComidaRequestDTO(
         @NotNull(message = "El ID del usuario es obligatorio")
-        Long usuarioId,
+        String usuarioId,
 
         @NotNull(message = "El ID del alimento es obligatorio")
         Long alimentoId,

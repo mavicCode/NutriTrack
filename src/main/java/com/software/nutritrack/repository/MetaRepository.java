@@ -14,8 +14,8 @@ import java.util.List;
 public interface MetaRepository extends JpaRepository<Meta,Long> {
 
     //Para obtener todas las metas de un usuario
-    @Query("SELECT m FROM Meta m WHERE m.usuario.idUsuario = :idUsuario")
-    List<Meta> findByUsuarioId(@Param("idUsuario") Long idUsuario);
+    @Query("SELECT m FROM Meta m WHERE m.usuario.id = :idUsuario")
+    List<Meta> findByUsuarioId(@Param("idUsuario") String idUsuario);
 
     //Para obtener una meta por su tipo
     List<Meta> findByTipo(TipoMeta tipo);

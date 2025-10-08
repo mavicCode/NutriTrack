@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 public record RegistroComidaResponseDTO(
         Long id,
-        Long usuarioId,
+        String usuarioId,
         String nombreUsuario,
         Long alimentoId,
         String alimentoNombre,

@@ -44,6 +44,7 @@ public class PlanService {
                 .tipoComida(dto.tipoComida())
                 .descripcion(dto.descripcion())
                 .clasificacion(dto.clasificacion())
+                .fecha(dto.fecha())
                 .comidas(new ArrayList<>())
                 .build();
 
@@ -88,7 +89,7 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponseDTO> findByUsuarioId(Long usuarioId) {
+    public List<PlanResponseDTO> findByUsuarioId(String usuarioId) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -98,7 +99,7 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponseDTO> findByUsuarioIdAndTipoComida(Long usuarioId, Integer tipoComida) {
+    public List<PlanResponseDTO> findByUsuarioIdAndTipoComida(String usuarioId, Integer tipoComida) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -128,6 +129,7 @@ public class PlanService {
 
         // Actualizar datos básicos
         plan.setUsuario(usuario);
+        plan.setFecha(dto.fecha());
         plan.setTipoComida(dto.tipoComida());
         plan.setDescripcion(dto.descripcion());
         plan.setClasificacion(dto.clasificacion());
@@ -182,11 +184,12 @@ public class PlanService {
 
         return PlanResponseDTO.builder()
                 .id(plan.getId())
-                .usuarioId(plan.getUsuario().getIdUsuario())
-                .nombreUsuario(plan.getUsuario().getNombre())
+                .usuarioId(plan.getUsuario().getId())
+                .nombreUsuario("nombre")
                 .tipoComida(plan.getTipoComida())
                 .tipoComidaNombre(getTipoComidaNombre(plan.getTipoComida()))
                 .descripcion(plan.getDescripcion())
+                .fecha(plan.getFecha())
                 .clasificacion(plan.getClasificacion())
                 .alimentos(alimentosDto)
                 .caloriasTotales(caloriasTotales)

@@ -14,45 +14,45 @@ import java.util.List;
 public interface RegistroComidaRepository extends JpaRepository<RegistroComida, Long> {
 
     // Buscar registros por usuario y fecha (US 09, 12)
-    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha")
-    List<RegistroComida> findByUsuarioIdAndFecha(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha")
+    List<RegistroComida> findByUsuarioIdAndFecha(@Param("usuarioId") String usuarioId,
                                                  @Param("fecha") LocalDate fecha);
 
     // Buscar registros por usuario, fecha y tipo de comida
-    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha AND r.tipoComida = :tipoComida")
-    List<RegistroComida> findByUsuarioIdAndFechaAndTipoComida(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha AND r.tipoComida = :tipoComida")
+    List<RegistroComida> findByUsuarioIdAndFechaAndTipoComida(@Param("usuarioId") String usuarioId,
                                                               @Param("fecha") LocalDate fecha,
                                                               @Param("tipoComida") Integer tipoComida);
 
     // Buscar registros por usuario en un rango de fechas
-    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha BETWEEN :fechaInicio AND :fechaFin")
-    List<RegistroComida> findByUsuarioIdAndFechaBetween(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT r FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha BETWEEN :fechaInicio AND :fechaFin")
+    List<RegistroComida> findByUsuarioIdAndFechaBetween(@Param("usuarioId") String usuarioId,
                                                         @Param("fechaInicio") LocalDate fechaInicio,
                                                         @Param("fechaFin") LocalDate fechaFin);
 
     // Calcular calorías totales por día (US 12)
-    @Query("SELECT SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha")
-    Integer calcularCaloriasTotalesDia(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha")
+    Integer calcularCaloriasTotalesDia(@Param("usuarioId") String usuarioId,
                                        @Param("fecha") LocalDate fecha);
 
     // Calcular calorías por tipo de comida en un día (US 12)
-    @Query("SELECT r.tipoComida, SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha GROUP BY r.tipoComida")
-    List<Object[]> calcularCaloriasPorTipoComida(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT r.tipoComida, SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha GROUP BY r.tipoComida")
+    List<Object[]> calcularCaloriasPorTipoComida(@Param("usuarioId") String usuarioId,
                                                  @Param("fecha") LocalDate fecha);
 
     // Calcular calorías por categoría en un día (US 12)
-    @Query("SELECT r.alimento.categoria, SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha GROUP BY r.alimento.categoria")
-    List<Object[]> calcularCaloriasPorCategoria(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT r.alimento.categoria, SUM(r.caloriasConsumidas) FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha GROUP BY r.alimento.categoria")
+    List<Object[]> calcularCaloriasPorCategoria(@Param("usuarioId") String usuarioId,
                                                 @Param("fecha") LocalDate fecha);
 
     // Verificar si hay registros para una fecha
-    @Query("SELECT COUNT(r) > 0 FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha")
-    boolean existsByUsuarioIdAndFecha(@Param("usuarioId") Long usuarioId,
+    @Query("SELECT COUNT(r) > 0 FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha")
+    boolean existsByUsuarioIdAndFecha(@Param("usuarioId") String usuarioId,
                                       @Param("fecha") LocalDate fecha);
 
     @Modifying
     // Eliminar todos los registros de un día
-    @Query("DELETE FROM RegistroComida r WHERE r.usuario.idUsuario = :usuarioId AND r.fecha = :fecha")
-    void deleteByUsuario_IdUsuarioAndFecha(@Param("usuarioId") Long usuarioId,
+    @Query("DELETE FROM RegistroComida r WHERE r.usuario.id = :usuarioId AND r.fecha = :fecha")
+    void deleteByUsuario_IdUsuarioAndFecha(@Param("usuarioId") String usuarioId,
                                    @Param("fecha") LocalDate fecha);
 }

@@ -12,5 +12,5 @@ public class MetaRequestDTO {
     private String descripcion;
     private EstadoMeta estado;
     private LocalDate fecha;
-    private Long idUsuario;
+    private String idUsuario;
 }

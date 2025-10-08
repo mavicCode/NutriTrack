@@ -4,11 +4,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record PlanRequestDTO(
         @NotNull(message = "El ID del usuario es obligatorio")
-        Long usuarioId,
+        String usuarioId,
 
         @NotNull(message = "El tipo de comida es obligatorio")
         @Positive(message = "El tipo de comida debe ser positivo")
@@ -16,6 +17,8 @@ public record PlanRequestDTO(
 
         @Size(max = 400, message = "La descripción no puede exceder 400 caracteres")
         String descripcion,
+
+        LocalDate fecha,
 
         Integer clasificacion,
 

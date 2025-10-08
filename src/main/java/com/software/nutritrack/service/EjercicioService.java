@@ -32,7 +32,7 @@ public class EjercicioService {
 
         // Respuesta
         return EjercicioResponseDTO.builder()
-                .id_ejercicio(savedEjercicio.getIdEjercicio())
+                .id_ejercicio(savedEjercicio.getId())
                 .descripcion(savedEjercicio.getDescripcion())
                 .categoria(savedEjercicio.getCategoria())
                 .build();
@@ -45,7 +45,7 @@ public class EjercicioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Ejercicio no encontrado"));
 
         return new EjercicioResponseDTO(
-                ejercicio.getIdEjercicio(),
+                ejercicio.getId(),
                 ejercicio.getDescripcion(),
                 ejercicio.getCategoria(),
                 ejercicio.getFecha_actualizacion()
@@ -67,7 +67,7 @@ public class EjercicioService {
 
         ejercicioRepository.save(ejercicio);
 
-        return new EjercicioResponseDTO(ejercicio.getIdEjercicio(), ejercicio.getDescripcion(),
+        return new EjercicioResponseDTO(ejercicio.getId(), ejercicio.getDescripcion(),
                 ejercicio.getCategoria(), ejercicio.getFecha_actualizacion());
     }
 

@@ -2,27 +2,32 @@ package com.software.nutritrack.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
-@Builder
+import java.time.LocalDate;
+
 public record UsuarioRegistroRequestDTO(
-
-        // Credenciales del usuario
-        @NotBlank(message = "El correo es obligatorio")
-        @Email(message = "El correo debe tener un formato válido")
+        // Datos de User (autenticación)
+        @NotBlank(message = "Email is required")
+        @Email(message = "Email must be valid")
         String email,
 
-        @NotBlank(message = "La contraseña es obligatoria")
+        @NotBlank(message = "Password is required")
+        @Size(min = 6, message = "Password must be at least 6 characters")
         String password,
 
-        // Datos comunes del perfil
-        @NotBlank(message = "El nombre es obligatorio")
-        String nombre,
+        // Datos de Customer (información personal)
+        String name,
+        Float weight,
+        Float height,
+        String phone,
+        String dni,
+        String address,
 
-        @NotNull(message = "El peso es obligatorio")
-        Float peso,
+        @Past(message = "Date of birth must be in the past")
+        LocalDate dateOfBirth,
 
-        @NotNull(message = "La altura es obligatoria")
-        Float altura
+        String nationality,
+        String occupation
 ) {}

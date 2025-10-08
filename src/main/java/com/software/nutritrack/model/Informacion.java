@@ -17,7 +17,7 @@ public class Informacion {
     private Long idInformacion;
 
     @Column(nullable = false)
-    private Long idUsuario;
+    private String idUsuario;
 
     @Column(nullable = false)
     private LocalDate fechaGeneracion;

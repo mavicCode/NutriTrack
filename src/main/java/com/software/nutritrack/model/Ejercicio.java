@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "excercises")
@@ -19,10 +21,10 @@ public class Ejercicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEjercicio;
+    private Long id;
 
-    @OneToMany(mappedBy = "ejercicio")
-    private List<UsuarioEjercicio> usuarios;
+    @OneToMany(mappedBy = "ejercicio", fetch = FetchType.LAZY)
+    private Set<ClienteEjercicio> clientes = new HashSet<>();
 
     @Column(nullable = false, unique = true)
     private String descripcion;

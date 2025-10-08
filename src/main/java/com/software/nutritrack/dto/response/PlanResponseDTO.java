@@ -2,16 +2,18 @@ package com.software.nutritrack.dto.response;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Builder
 public record PlanResponseDTO(
         Long id,
-        Long usuarioId,
+        String usuarioId,
         String nombreUsuario,
         Integer tipoComida,
         String tipoComidaNombre, // "Desayuno", "Almuerzo", etc.
         String descripcion,
+        LocalDate fecha,
         Integer clasificacion,
         List<ComidaAlimentoResponseDTO> alimentos,
         Integer caloriasTotales

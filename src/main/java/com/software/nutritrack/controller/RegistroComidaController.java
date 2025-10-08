@@ -45,7 +45,7 @@ public class RegistroComidaController {
     // US 09: Ver lista del día por fecha específica
     @GetMapping("/usuario/{usuarioId}/fecha/{fecha}")
     public ResponseEntity<List<RegistroComidaResponseDTO>> findByUsuarioIdAndFecha(
-            @PathVariable Long usuarioId,
+            @PathVariable String usuarioId,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         List<RegistroComidaResponseDTO> registros = registroComidaService.findByUsuarioIdAndFecha(usuarioId, fecha);
         return ResponseEntity.ok(registros);
@@ -53,7 +53,7 @@ public class RegistroComidaController {
 
     // Ver lista del día actual
     @GetMapping("/usuario/{usuarioId}/hoy")
-    public ResponseEntity<List<RegistroComidaResponseDTO>> findByUsuarioIdToday(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<RegistroComidaResponseDTO>> findByUsuarioIdToday(@PathVariable String usuarioId) {
         List<RegistroComidaResponseDTO> registros = registroComidaService.findByUsuarioIdAndFecha(usuarioId, LocalDate.now());
         return ResponseEntity.ok(registros);
     }
@@ -61,7 +61,7 @@ public class RegistroComidaController {
     // Ver registros por tipo de comida en una fecha
     @GetMapping("/usuario/{usuarioId}/fecha/{fecha}/tipo/{tipoComida}")
     public ResponseEntity<List<RegistroComidaResponseDTO>> findByUsuarioIdAndFechaAndTipoComida(
-            @PathVariable Long usuarioId,
+            @PathVariable String usuarioId,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
             @PathVariable Integer tipoComida) {
         List<RegistroComidaResponseDTO> registros = registroComidaService.findByUsuarioIdAndFechaAndTipoComida(usuarioId, fecha, tipoComida);
@@ -87,7 +87,7 @@ public class RegistroComidaController {
     // US 12: Ver resumen diario por fecha específica
     @GetMapping("/resumen/usuario/{usuarioId}/fecha/{fecha}")
     public ResponseEntity<ResumenDiarioDTO> getResumenDiario(
-            @PathVariable Long usuarioId,
+            @PathVariable String usuarioId,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         ResumenDiarioDTO resumen = registroComidaService.getResumenDiario(usuarioId, fecha);
         return ResponseEntity.ok(resumen);
@@ -95,7 +95,7 @@ public class RegistroComidaController {
 
     // US 12: Ver resumen de hoy
     @GetMapping("/resumen/usuario/{usuarioId}/hoy")
-    public ResponseEntity<ResumenDiarioDTO> getResumenHoy(@PathVariable Long usuarioId) {
+    public ResponseEntity<ResumenDiarioDTO> getResumenHoy(@PathVariable String usuarioId) {
         ResumenDiarioDTO resumen = registroComidaService.getResumenDiario(usuarioId, LocalDate.now());
         return ResponseEntity.ok(resumen);
     }

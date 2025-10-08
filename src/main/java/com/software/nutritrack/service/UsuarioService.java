@@ -19,23 +19,20 @@ public class UsuarioService {
     //private final EmailService emailService; // implementar envío de correos
 
     @Transactional(readOnly = true)
-    public UsuarioPerfilResponseDTO getProfile(Long userId) {
+    public UsuarioPerfilResponseDTO getProfile(String userId) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         return new UsuarioPerfilResponseDTO(
-                user.getIdUsuario(),
+                user.getId(),
                 user.getEmail(),
-                user.getNombre(),
-                user.getPeso(),
-                user.getAltura(),
                 user.getFecha_registro(),
                 user.getFecha_actualizacion()
         );
     }
 
     @Transactional
-    public void changePassword(Long userId, String currentPassword, String newPassword) {
+    public void changePassword(String userId, String currentPassword, String newPassword) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
@@ -50,23 +47,17 @@ public class UsuarioService {
         //emailService.sendPasswordChangedEmail(user.getEmail());
     }
 
-    public UsuarioPerfilResponseDTO updateProfile(Long userId, UsuarioUpdateRequestDTO request) {
+    public UsuarioPerfilResponseDTO updateProfile(String userId, UsuarioUpdateRequestDTO request) {
         Usuario usuario = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        if (request.nombre() != null && !request.nombre().isEmpty()) {
-            usuario.setNombre(request.nombre());
-        }
-        usuario.setPeso(request.peso());
-        usuario.setAltura(request.altura());
         usuario.setFecha_actualizacion(LocalDate.now());
 
         userRepository.save(usuario);
 
-        return new UsuarioPerfilResponseDTO(usuario.getIdUsuario(), usuario.getEmail(), usuario.getNombre(), usuario.getPeso(),
-                usuario.getAltura(), usuario.getFecha_registro(), usuario.getFecha_actualizacion());
+        return new UsuarioPerfilResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getFecha_registro(), usuario.getFecha_actualizacion());
     }
 
-    public void deleteUser(Long userId) {
+    public void deleteUser(String userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }

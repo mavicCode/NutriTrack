@@ -41,7 +41,7 @@ public class PlanController {
 
     // Obtener planes de un usuario
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<PlanResponseDTO>> findByUsuarioId(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<PlanResponseDTO>> findByUsuarioId(@PathVariable String usuarioId) {
         List<PlanResponseDTO> planes = planService.findByUsuarioId(usuarioId);
         return ResponseEntity.ok(planes);
     }
@@ -49,7 +49,7 @@ public class PlanController {
     // Obtener planes de un usuario por tipo de comida
     @GetMapping("/usuario/{usuarioId}/tipo/{tipoComida}")
     public ResponseEntity<List<PlanResponseDTO>> findByUsuarioIdAndTipoComida(
-            @PathVariable Long usuarioId,
+            @PathVariable String usuarioId,
             @PathVariable Integer tipoComida) {
         List<PlanResponseDTO> planes = planService.findByUsuarioIdAndTipoComida(usuarioId, tipoComida);
         return ResponseEntity.ok(planes);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Builder
 public record ResumenDiarioDTO(
-        Long usuarioId,
+        String usuarioId,
         String nombreUsuario,
         LocalDate fecha,
         Integer caloriasTotales,

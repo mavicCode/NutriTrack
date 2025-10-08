@@ -18,13 +18,13 @@ public class UsuarioController {
     private final UsuarioService userService;
 
     @GetMapping("/{userId}/profile")
-    public ResponseEntity<UsuarioPerfilResponseDTO> getProfile(@PathVariable Long userId) {
+    public ResponseEntity<UsuarioPerfilResponseDTO> getProfile(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getProfile(userId));
     }
 
     @PutMapping("/{userId}/change-password")
     public ResponseEntity<String> changePassword(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @RequestParam String currentPassword,
             @RequestParam String newPassword) {
         userService.changePassword(userId, currentPassword, newPassword);
@@ -33,7 +33,7 @@ public class UsuarioController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UsuarioPerfilResponseDTO> updateProfile(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @RequestBody UsuarioUpdateRequestDTO request
     ) {
         UsuarioPerfilResponseDTO updated = userService.updateProfile(userId, request);
@@ -42,7 +42,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, String>> deleteAccount(
-            @PathVariable Long userId
+            @PathVariable String userId
     ) {
 
         userService.deleteUser(userId);

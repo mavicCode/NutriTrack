@@ -1,5 +1,6 @@
 package com.software.nutritrack.model;
 
+import com.software.nutritrack.model.Ids.ClienteEjercicioId;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -10,17 +11,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UsuarioEjercicio {
+public class ClienteEjercicio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_usuario_ejercicio;
+    @EmbeddedId
+    private ClienteEjercicioId clienteEjercicioId;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @MapsId("idCliente")
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idEjercicio")
     @JoinColumn(name = "id_ejercicio", nullable = false)
     private Ejercicio ejercicio;
 

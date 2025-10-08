@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,11 +17,12 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<UsuarioEjercicio> ejercicios;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Rol role;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -31,13 +31,7 @@ public class Usuario {
     private String password;
 
     @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false)
-    private Float peso;
-
-    @Column(nullable = false)
-    private Float altura;
+    private Boolean active = true;
 
     @Column(nullable = false, updatable = false)
     private LocalDate fecha_registro;
@@ -46,7 +40,11 @@ public class Usuario {
 
     @PrePersist
     public void prePersist() {
-        fecha_registro = LocalDate.now();
-        fecha_actualizacion = LocalDate.now();
+        this.fecha_registro = this.fecha_actualizacion = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fecha_actualizacion = LocalDate.now();
     }
 }
