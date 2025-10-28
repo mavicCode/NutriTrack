@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.software.nutritrack.dto.request.InformacionRequestDTO;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -256,7 +257,7 @@ public class ReporteService {
     }
 
     // POST - Crear registro de reporte manualmente
-    public InformacionResponseDTO createReportRecord(InformacionRequestDTO request) {
+        public InformacionResponseDTO createReportRecord(InformacionRequestDTO request) {
         Informacion info = Informacion.builder()
                 .idUsuario(request.idUsuario())
                 .formato(request.formato())
