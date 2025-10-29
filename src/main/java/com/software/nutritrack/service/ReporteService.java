@@ -15,9 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.software.nutritrack.dto.request.InformacionRequestDTO;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,9 +100,9 @@ public class ReporteService {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
             PdfWriter.getInstance(document, baos);
-
             document.open();
 
+            //Título
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
             Paragraph title = new Paragraph("Reporte Nutricional - NutriTrack", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -111,11 +113,82 @@ public class ReporteService {
             document.add(new Paragraph("Rango: " + rango));
             document.add(new Paragraph("Fecha de generación: " + LocalDate.now()));
             document.add(new Paragraph(" "));
-            document.add(new Paragraph("Resumen de Alimentación"));
-            document.add(new Paragraph("Este reporte contiene información sobre tu progreso nutricional."));
+
+            Font sectionFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+
+            //CONSUMO POR CATEGORÍAS (US 17)
+            try {
+                LocalDate fechaActual = LocalDate.now();
+                ConsumoReporteResponseDTO consumo = getConsumption(userId, fechaActual);
+
+                Paragraph consumoTitle = new Paragraph("1. Consumo por Categorias", sectionFont);
+                document.add(consumoTitle);
+                document.add(new Paragraph(" "));
+
+                for (Map.Entry<String, Double> entry : consumo.consumoPorCategoria().entrySet()) {
+                    document.add(new Paragraph("  - " + entry.getKey() + ": " + entry.getValue() + " registros"));
+                }
+                document.add(new Paragraph(" "));
+            } catch (ResourceNotFoundException e) {
+                document.add(new Paragraph("No hay datos de consumo disponibles."));
+                document.add(new Paragraph(" "));
+            }
+
+            // COMPARACIÓN VS METAS (US 18)
+            try {
+                LocalDate fechaActual = LocalDate.now();
+                ComparacionReporteResponseDTO comparacion = getComparison(userId, fechaActual);
+
+                Paragraph comparacionTitle = new Paragraph("2. Cumplimiento de Metas", sectionFont);
+                document.add(comparacionTitle);
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph("  Meta de calorias: " + comparacion.metaCalorias() + " kcal"));
+                document.add(new Paragraph("  Consumido: " + comparacion.consumido() + " kcal"));
+                document.add(new Paragraph("  Cumplimiento: " + comparacion.cumplimiento() + "%"));
+                document.add(new Paragraph("  Estado: " + comparacion.mensaje()));
+                document.add(new Paragraph(" "));
+            } catch (ResourceNotFoundException e) {
+                document.add(new Paragraph("No hay datos de metas disponibles."));
+                document.add(new Paragraph(" "));
+            }
+
+            // TENDENCIAS (US 19)
+            try {
+                TendenciaReporteResponseDTO tendencias = getTrends(userId, rango);
+
+                Paragraph tendenciaTitle = new Paragraph("3. Tendencias de Progreso", sectionFont);
+                document.add(tendenciaTitle);
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph("  Periodo analizado: " + rango));
+                document.add(new Paragraph("  Dias registrados: " + tendencias.fechas().size()));
+
+                if (!tendencias.calorias().isEmpty()) {
+                    double promedio = tendencias.calorias().stream()
+                            .mapToDouble(Double::doubleValue)
+                            .average()
+                            .orElse(0.0);
+                    double maximo = tendencias.calorias().stream()
+                            .mapToDouble(Double::doubleValue)
+                            .max()
+                            .orElse(0.0);
+                    double minimo = tendencias.calorias().stream()
+                            .mapToDouble(Double::doubleValue)
+                            .min()
+                            .orElse(0.0);
+
+                    document.add(new Paragraph("  Promedio de calorias: " + String.format("%.2f", promedio) + " kcal"));
+                    document.add(new Paragraph("  Maximo registrado: " + String.format("%.2f", maximo) + " kcal"));
+                    document.add(new Paragraph("  Minimo registrado: " + String.format("%.2f", minimo) + " kcal"));
+                }
+                document.add(new Paragraph(" "));
+            } catch (ResourceNotFoundException e) {
+                document.add(new Paragraph("No hay suficientes datos para mostrar tendencias."));
+                document.add(new Paragraph(" "));
+            }
 
             document.close();
 
+            // Guardar
             Informacion info = Informacion.builder()
                     .idUsuario(userId)
                     .formato("PDF")
@@ -136,6 +209,90 @@ public class ReporteService {
         } catch (Exception e) {
             throw new RuntimeException("Error al generar el PDF: " + e.getMessage());
         }
+    }
+
+    //Listar historial de reportes generados por usuario
+    public List<InformacionResponseDTO> getReportHistory(Long userId) {
+        List<Informacion> informaciones = informacionRepository.findByIdUsuario(userId);
+
+        return informaciones.stream()
+                .map(info -> new InformacionResponseDTO(
+                        info.getIdInformacion(),
+                        info.getIdUsuario(),
+                        info.getFechaGeneracion(),
+                        info.getFormato(),
+                        info.getRutaArchivo()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    //Obtener detalles de un reporte específico
+    public InformacionResponseDTO getReportDetails(Long reportId) {
+        Informacion info = informacionRepository.findById(reportId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reporte no encontrado con ID: " + reportId));
+
+        return new InformacionResponseDTO(
+                info.getIdInformacion(),
+                info.getIdUsuario(),
+                info.getFechaGeneracion(),
+                info.getFormato(),
+                info.getRutaArchivo()
+        );
+    }
+    // Eliminar un reporte específico del historial
+    public void deleteReport(Long reportId) {
+        if (!informacionRepository.existsById(reportId)) {
+            throw new ResourceNotFoundException("Reporte no encontrado con ID: " + reportId);
+        }
+        informacionRepository.deleteById(reportId);
+    }
+
+    // Eliminar todos los reportes de un usuario
+    public void deleteAllUserReports(Long userId) {
+        List<Informacion> reportes = informacionRepository.findByIdUsuario(userId);
+        if (reportes.isEmpty()) {
+            throw new ResourceNotFoundException("No hay reportes para eliminar del usuario: " + userId);
+        }
+        informacionRepository.deleteAll(reportes);
+    }
+
+    // POST - Crear registro de reporte manualmente
+        public InformacionResponseDTO createReportRecord(InformacionRequestDTO request) {
+        Informacion info = Informacion.builder()
+                .idUsuario(request.idUsuario())
+                .formato(request.formato())
+                .rutaArchivo(request.rutaArchivo())
+                .build();
+
+        Informacion savedInfo = informacionRepository.save(info);
+
+        return new InformacionResponseDTO(
+                savedInfo.getIdInformacion(),
+                savedInfo.getIdUsuario(),
+                savedInfo.getFechaGeneracion(),
+                savedInfo.getFormato(),
+                savedInfo.getRutaArchivo()
+        );
+    }
+
+    // PUT - Actualizar registro de reporte
+    public InformacionResponseDTO updateReportRecord(Long reportId, InformacionRequestDTO request) {
+        Informacion info = informacionRepository.findById(reportId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reporte no encontrado con ID: " + reportId));
+
+        info.setIdUsuario(request.idUsuario());
+        info.setFormato(request.formato());
+        info.setRutaArchivo(request.rutaArchivo());
+
+        Informacion updatedInfo = informacionRepository.save(info);
+
+        return new InformacionResponseDTO(
+                updatedInfo.getIdInformacion(),
+                updatedInfo.getIdUsuario(),
+                updatedInfo.getFechaGeneracion(),
+                updatedInfo.getFormato(),
+                updatedInfo.getRutaArchivo()
+        );
     }
 
     private String getCategoriaNombre(Plan plan) {
