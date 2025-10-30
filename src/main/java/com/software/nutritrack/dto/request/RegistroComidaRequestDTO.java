@@ -4,10 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record RegistroComidaRequestDTO(
         @NotNull(message = "El ID del usuario es obligatorio")
-        String usuarioId,
+        UUID usuarioId,
 
         @NotNull(message = "El ID del alimento es obligatorio")
         Long alimentoId,

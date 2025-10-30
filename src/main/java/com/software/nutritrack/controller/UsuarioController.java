@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -18,13 +19,13 @@ public class UsuarioController {
     private final UsuarioService userService;
 
     @GetMapping("/{userId}/profile")
-    public ResponseEntity<UsuarioPerfilResponseDTO> getProfile(@PathVariable String userId) {
+    public ResponseEntity<UsuarioPerfilResponseDTO> getProfile(@PathVariable UUID userId) {
         return ResponseEntity.ok(userService.getProfile(userId));
     }
 
     @PutMapping("/{userId}/change-password")
     public ResponseEntity<String> changePassword(
-            @PathVariable String userId,
+            @PathVariable UUID userId,
             @RequestParam String currentPassword,
             @RequestParam String newPassword) {
         userService.changePassword(userId, currentPassword, newPassword);
@@ -33,7 +34,7 @@ public class UsuarioController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UsuarioPerfilResponseDTO> updateProfile(
-            @PathVariable String userId,
+            @PathVariable UUID userId,
             @RequestBody UsuarioUpdateRequestDTO request
     ) {
         UsuarioPerfilResponseDTO updated = userService.updateProfile(userId, request);
@@ -42,7 +43,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, String>> deleteAccount(
-            @PathVariable String userId
+            @PathVariable UUID userId
     ) {
 
         userService.deleteUser(userId);

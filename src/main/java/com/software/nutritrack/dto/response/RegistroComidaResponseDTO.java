@@ -4,11 +4,12 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 public record RegistroComidaResponseDTO(
         Long id,
-        String usuarioId,
+        UUID usuarioId,
         String nombreUsuario,
         Long alimentoId,
         String alimentoNombre,

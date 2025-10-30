@@ -1,4 +1,4 @@
-package com.software.nutritrack.model.Enums;
+package com.software.nutritrack.model.enums;
 
 public enum TipoMeta {
     NUTRICION,

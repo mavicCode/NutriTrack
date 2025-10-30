@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "excercises")
@@ -23,9 +20,6 @@ public class Ejercicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "ejercicio", fetch = FetchType.LAZY)
-    private Set<ClienteEjercicio> clientes = new HashSet<>();
-
     @Column(nullable = false, unique = true)
     private String descripcion;
 
@@ -35,7 +29,7 @@ public class Ejercicio {
     private LocalDate fecha_actualizacion;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         fecha_actualizacion = LocalDate.now();
     }
 }

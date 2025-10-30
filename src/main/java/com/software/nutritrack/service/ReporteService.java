@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +30,7 @@ public class ReporteService {
     private final PlanRepository planRepository;
     private final InformacionRepository informacionRepository;
 
-    public ConsumoReporteResponseDTO getConsumption(String userId, LocalDate fecha) {
+    public ConsumoReporteResponseDTO getConsumption(UUID userId, LocalDate fecha) {
         List<Plan> planes = planRepository.findByUsuarioIdAndFecha(userId, fecha);
 
         if (planes.isEmpty()) {
@@ -47,7 +46,7 @@ public class ReporteService {
         return new ConsumoReporteResponseDTO(fecha, consumoPorCategoria, 0.0);
     }
 
-    public ComparacionReporteResponseDTO getComparison(String userId, LocalDate fecha) {
+    public ComparacionReporteResponseDTO getComparison(UUID userId, LocalDate fecha) {
         List<Plan> planes = planRepository.findByUsuarioIdAndFecha(userId, fecha);
 
         if (planes.isEmpty()) {
@@ -67,7 +66,7 @@ public class ReporteService {
         return new ComparacionReporteResponseDTO(metaCalorias, consumido, Math.round(cumplimiento), mensaje);
     }
 
-    public TendenciaReporteResponseDTO getTrends(String userId, String rango) {
+    public TendenciaReporteResponseDTO getTrends(UUID userId, String rango) {
         LocalDate fechaFin = LocalDate.now();
         LocalDate fechaInicio = rango.equalsIgnoreCase("semanal")
                 ? fechaFin.minusDays(7)
@@ -95,7 +94,7 @@ public class ReporteService {
         return new TendenciaReporteResponseDTO(fechas, calorias, rango);
     }
 
-    public ResponseEntity<byte[]> generatePdf(String userId, String rango) {
+    public ResponseEntity<byte[]> generatePdf(UUID userId, String rango) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);

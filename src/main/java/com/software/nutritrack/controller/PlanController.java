@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/plans")
@@ -41,7 +42,7 @@ public class PlanController {
 
     // Obtener planes de un usuario
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<PlanResponseDTO>> findByUsuarioId(@PathVariable String usuarioId) {
+    public ResponseEntity<List<PlanResponseDTO>> findByUsuarioId(@PathVariable UUID usuarioId) {
         List<PlanResponseDTO> planes = planService.findByUsuarioId(usuarioId);
         return ResponseEntity.ok(planes);
     }
@@ -49,7 +50,7 @@ public class PlanController {
     // Obtener planes de un usuario por tipo de comida
     @GetMapping("/usuario/{usuarioId}/tipo/{tipoComida}")
     public ResponseEntity<List<PlanResponseDTO>> findByUsuarioIdAndTipoComida(
-            @PathVariable String usuarioId,
+            @PathVariable UUID usuarioId,
             @PathVariable Integer tipoComida) {
         List<PlanResponseDTO> planes = planService.findByUsuarioIdAndTipoComida(usuarioId, tipoComida);
         return ResponseEntity.ok(planes);

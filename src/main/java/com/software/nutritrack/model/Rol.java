@@ -1,6 +1,6 @@
 package com.software.nutritrack.model;
 
-import com.software.nutritrack.model.Enums.TipoRol;
+import com.software.nutritrack.model.enums.TipoRol;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("reports")
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ReporteController {
 
     @GetMapping("/consumption")
     public ResponseEntity<ConsumoReporteResponseDTO> getConsumption(
-            @RequestParam String userId,
+            @RequestParam UUID userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
 
         ConsumoReporteResponseDTO reporte = reporteService.getConsumption(userId, fecha);
@@ -27,7 +29,7 @@ public class ReporteController {
 
     @GetMapping("/comparison")
     public ResponseEntity<ComparacionReporteResponseDTO> getComparison(
-            @RequestParam String userId,
+            @RequestParam UUID userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
 
         ComparacionReporteResponseDTO reporte = reporteService.getComparison(userId, fecha);
@@ -36,7 +38,7 @@ public class ReporteController {
 
     @GetMapping("/trends")
     public ResponseEntity<TendenciaReporteResponseDTO> getTrends(
-            @RequestParam String userId,
+            @RequestParam UUID userId,
             @RequestParam String rango) {
 
         TendenciaReporteResponseDTO reporte = reporteService.getTrends(userId, rango);
@@ -45,7 +47,7 @@ public class ReporteController {
 
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> downloadPdf(
-            @RequestParam String userId,
+            @RequestParam UUID userId,
             @RequestParam String rango) {
 
         return reporteService.generatePdf(userId, rango);

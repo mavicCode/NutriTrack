@@ -1,8 +1,8 @@
 package com.software.nutritrack.repository;
 
-import com.software.nutritrack.model.Enums.EstadoMeta;
+import com.software.nutritrack.model.enums.EstadoMeta;
 import com.software.nutritrack.model.Meta;
-import com.software.nutritrack.model.Enums.TipoMeta;
+import com.software.nutritrack.model.enums.TipoMeta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

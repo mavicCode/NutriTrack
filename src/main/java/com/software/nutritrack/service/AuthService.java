@@ -6,17 +6,15 @@ import com.software.nutritrack.dto.response.AuthResponse;
 import com.software.nutritrack.exception.BusinessRuleException;
 import com.software.nutritrack.model.Cliente;
 import com.software.nutritrack.model.Rol;
-import com.software.nutritrack.model.Enums.TipoRol;
+import com.software.nutritrack.model.enums.TipoRol;
 import com.software.nutritrack.model.Usuario;
 import com.software.nutritrack.repository.ClienteRepository;
 import com.software.nutritrack.repository.RolRepository;
 import com.software.nutritrack.repository.UsuarioRepository;
 import com.software.nutritrack.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,7 +45,7 @@ public class AuthService {
 
         Rol userRole = roleRepository.findByName(TipoRol.ROLE_USER)
                 .orElseThrow(() -> new BusinessRuleException("Role ROLE_USER not found"));
-        user.setRole(userRole);
+        user.setRol(userRole);
 
         Usuario savedUser = userRepository.save(user);
 
@@ -55,12 +53,6 @@ public class AuthService {
         Cliente customer = new Cliente();
         customer.setUsuario(savedUser);
         customer.setName(request.name());
-        customer.setPhone(request.phone());
-        customer.setDni(request.dni());
-        customer.setAddress(request.address());
-        customer.setDateOfBirth(request.dateOfBirth());
-        customer.setNationality(request.nationality());
-        customer.setOccupation(request.occupation());
         Cliente savedCustomer = customerRepository.save(customer);
 
         // Generar JWT con email, nombre y customerId

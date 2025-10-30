@@ -1,17 +1,15 @@
 package com.software.nutritrack.repository;
 
-import com.software.nutritrack.model.Enums.KycStatus;
 import com.software.nutritrack.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, String> {
-    Optional<Cliente> findByUsuario_Id(String usuarioId);
+public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
+    Optional<Cliente> findByUsuario_Id(UUID usuarioId);
 
-    // Para reportes
-    long countByKycStatus(KycStatus kycStatus);
-    long countByActive(Boolean active);
+
 }
