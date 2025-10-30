@@ -1,7 +1,7 @@
 package com.software.nutritrack.repository;
 
 import com.software.nutritrack.model.Rol;
-import com.software.nutritrack.model.Enums.TipoRol;
+import com.software.nutritrack.model.enums.TipoRol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

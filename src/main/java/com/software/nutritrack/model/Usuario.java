@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,11 +19,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Rol role;
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -37,6 +34,10 @@ public class Usuario {
     private LocalDate fecha_registro;
 
     private LocalDate fecha_actualizacion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rol")
+    private Rol rol;
 
     @PrePersist
     public void prePersist() {

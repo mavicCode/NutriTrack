@@ -6,10 +6,11 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public record PlanRequestDTO(
         @NotNull(message = "El ID del usuario es obligatorio")
-        String usuarioId,
+        UUID usuarioId,
 
         @NotNull(message = "El tipo de comida es obligatorio")
         @Positive(message = "El tipo de comida debe ser positivo")

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +63,7 @@ public class RegistroComidaService {
 
     // US 09: Obtener registros del día
     @Transactional(readOnly = true)
-    public List<RegistroComidaResponseDTO> findByUsuarioIdAndFecha(String usuarioId, LocalDate fecha) {
+    public List<RegistroComidaResponseDTO> findByUsuarioIdAndFecha(UUID usuarioId, LocalDate fecha) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -88,7 +89,7 @@ public class RegistroComidaService {
 
     @Transactional(readOnly = true)
     public List<RegistroComidaResponseDTO> findByUsuarioIdAndFechaAndTipoComida(
-            String usuarioId, LocalDate fecha, Integer tipoComida) {
+            UUID usuarioId, LocalDate fecha, Integer tipoComida) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -141,7 +142,7 @@ public class RegistroComidaService {
 
     // US 12: Ver resumen diario
     @Transactional(readOnly = true)
-    public ResumenDiarioDTO getResumenDiario(String usuarioId, LocalDate fecha) {
+    public ResumenDiarioDTO getResumenDiario(UUID usuarioId, LocalDate fecha) {
         var usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 

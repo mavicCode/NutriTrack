@@ -2,7 +2,7 @@ package com.software.nutritrack.config;
 
 import com.software.nutritrack.model.Cliente;
 import com.software.nutritrack.model.Rol;
-import com.software.nutritrack.model.Enums.TipoRol;
+import com.software.nutritrack.model.enums.TipoRol;
 import com.software.nutritrack.model.Usuario;
 import com.software.nutritrack.repository.ClienteRepository;
 import com.software.nutritrack.repository.RolRepository;
@@ -59,7 +59,7 @@ public class DataInitializer implements CommandLineRunner {
         Usuario adminUser = new Usuario();
         adminUser.setEmail(adminEmail);
         adminUser.setPassword(passwordEncoder.encode("admin123"));
-        adminUser.setRole(adminRole);
+        adminUser.setRol(adminRole);
         adminUser.setActive(true);
         Usuario savedAdmin = userRepository.save(adminUser);
 

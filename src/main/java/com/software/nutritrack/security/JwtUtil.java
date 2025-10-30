@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -22,7 +23,7 @@ public class JwtUtil {
     private Long expiration;
 
     // Generar token con email, nombre y customerId
-    public String generateToken(String email, String name, String customerId) {
+    public String generateToken(String email, String name, UUID customerId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 

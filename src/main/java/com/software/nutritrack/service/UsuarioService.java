@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class UsuarioService {
     //private final EmailService emailService; // implementar envío de correos
 
     @Transactional(readOnly = true)
-    public UsuarioPerfilResponseDTO getProfile(String userId) {
+    public UsuarioPerfilResponseDTO getProfile(UUID userId) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
@@ -32,7 +33,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void changePassword(String userId, String currentPassword, String newPassword) {
+    public void changePassword(UUID userId, String currentPassword, String newPassword) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
@@ -47,7 +48,7 @@ public class UsuarioService {
         //emailService.sendPasswordChangedEmail(user.getEmail());
     }
 
-    public UsuarioPerfilResponseDTO updateProfile(String userId, UsuarioUpdateRequestDTO request) {
+    public UsuarioPerfilResponseDTO updateProfile(UUID userId, UsuarioUpdateRequestDTO request) {
         Usuario usuario = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         usuario.setFecha_actualizacion(LocalDate.now());
@@ -57,7 +58,7 @@ public class UsuarioService {
         return new UsuarioPerfilResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getFecha_registro(), usuario.getFecha_actualizacion());
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(UUID userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }

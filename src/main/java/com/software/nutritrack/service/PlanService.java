@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,7 +90,7 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponseDTO> findByUsuarioId(String usuarioId) {
+    public List<PlanResponseDTO> findByUsuarioId(UUID usuarioId) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
@@ -99,7 +100,7 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponseDTO> findByUsuarioIdAndTipoComida(String usuarioId, Integer tipoComida) {
+    public List<PlanResponseDTO> findByUsuarioIdAndTipoComida(UUID usuarioId, Integer tipoComida) {
         if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }

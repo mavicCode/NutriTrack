@@ -3,6 +3,7 @@ package com.software.nutritrack.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "informacion")
@@ -17,7 +18,7 @@ public class Informacion {
     private Long idInformacion;
 
     @Column(nullable = false)
-    private String idUsuario;
+    private UUID idUsuario;
 
     @Column(nullable = false)
     private LocalDate fechaGeneracion;
